@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    <title>POP UP LEAFLET</title>
+    <title> INFORMASI SITUS WARISAN BUDAYA KOTA YOGYAKARTA </title>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
@@ -10,41 +11,70 @@
             height: 700px;
         }
     </style>
+    <h2>INFORMASI TEMPAT WARISAN SEJARAH YOGYAKARTA DALAM SISTEM PERTAHANAN </h2>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 </head>
 
 <body>
     <div id="map"></div>
     <script>
-        var map = L.map('map').setView([51.505, -0.09], 13);
+        var map = L.map('map').setView([-7.801396643931804, 110.36476411248083], 13);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        var marker = L.marker([51.5, -0.09]).addTo(map);
+        var marker = L.marker([-7.801396643931804, 110.36476411248083]).addTo(map);
+        // Define marker coordinates
+        var markers = [
+            { lat: -7.812846136054055, lng: 110.35623323375341, title: 'Pojok Beteng Kulon' },
+            { lat: -7.814881761756557, lng: 110.3685404023602, title: 'Pojok Beteng Wetan' },
+            { lat: -7.8042029752222035, lng: 110.35644400116514, title: 'Pojok Beteng Lor Kulon' },
+            { lat: -7.80412809890716, lng: 110.3691876182224, title: 'Pojok Beteng Lor Wetan' },
+            { lat: -7.803505868476439, lng: 110.364401136179119, title: 'Alun Alun Lor/Utara'},
+            { lat: -7.805287455331144, lng: 110.36420308403358, title: 'Kraton Yogyakarta'},
+            { lat: -7.782923205114306, lng: 110.36707131976823, title: 'Tugu Pal Putih'},
+            { lat: -7.827635521490052, lng: 110.36060713698063, title: 'Panggung Krapyak'},
+            { lat: -8.023125601529308, lng: 110.26497478382286, title: 'Pantai Parangkusumo'},
+            { lat: -7.540954371231873, lng: 110.44583338633515, title: 'Merapi'}
+        ];
 
-        var circle = L.circle([51.508, -0.11], {
+        // Create an empty Layer Group to hold the markers
+        var markerGroup = L.layerGroup();
+
+        // Add markers to the map
+        markers.forEach(function (marker) {
+            var newMarker = L.marker([marker.lat, marker.lng]).bindPopup(marker.title);
+            markerGroup.addLayer(newMarker);
+        });
+
+        // Add the Layer Group to the map
+        markerGroup.addTo(map);
+        var circle = L.circle([-7.803505868476439, 110.36440113617911], {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 500
+            radius: 5000
         }).addTo(map);
 
+
+        // Define the coordinates of the square's vertices
         var polygon = L.polygon([
-            [51.509, -0.08],
-            [51.503, -0.06],
-            [51.51, -0.047]
+            [-7.812846136054055, 110.35623323375341],
+            [-7.814881761756557, 110.3685404023602],
+            [-7.80412809890716, 110.3691876182224],
+            [-7.8042029752222035, 110.35644400116514]
         ]).addTo(map);
 
-        marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-        circle.bindPopup("I am a circle.");
-        polygon.bindPopup("I am a polygon.");
+        marker.bindPopup("<b>Di Sini</b><br>Kota Yogyakarta.").openPopup();
+        circle.bindPopup("Kawasan Pusat Kota");
+        polygon.bindPopup("Pertahanan Kraton.");
         var popup = L.popup()
-            .setLatLng([51.513, -0.09])
-            .setContent("I am a standalone popup.")
+            .setLatLng([-7.803505868476439, 110.36440113617911])
+            .setContent("Kawasan Pusat Kota")
             .openOn(map);
 
-            // Function to add a point marker with a pop-up to the map
+        // Function to add a point marker with a pop-up to the map
         function addMarker(lat, lng) {
             var marker = L.marker([lat, lng]).addTo(markers);
 
